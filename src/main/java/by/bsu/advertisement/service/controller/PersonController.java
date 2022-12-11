@@ -9,6 +9,8 @@ import by.bsu.advertisement.service.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class PersonController {
     private final PersonService personService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<Person> getAll(){
         return personService.getAll();
     }
@@ -34,6 +37,7 @@ public class PersonController {
     }
 
     @PostMapping("/role")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public void createRole(@RequestBody CreateNewRoleRequest newRoleRequest){
         PersonRole createRole = modelMapper.map(newRoleRequest, PersonRole.class);
@@ -41,6 +45,7 @@ public class PersonController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void createRole(@RequestBody RoleToUserRequest newRoleRequest){
         personService.addRole(newRoleRequest.getUsername(), newRoleRequest.getName());
     }
