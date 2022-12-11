@@ -95,8 +95,10 @@ public class PersonController {
                         .sign(algorithm);
 
                 Map<String, String> tokens = new HashMap<>();
-                tokens.put("access_token", accessToken);
-                tokens.put("refresh_token", refreshToken);
+                tokens.put("accessToken", accessToken);
+                tokens.put("refreshToken", refreshToken);
+                tokens.put("username", person.getUsername());
+                tokens.put("roles", person.getRoles().toString());
 
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);

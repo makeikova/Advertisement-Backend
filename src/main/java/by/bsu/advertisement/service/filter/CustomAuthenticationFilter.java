@@ -1,5 +1,7 @@
 package by.bsu.advertisement.service.filter;
 
+import by.bsu.advertisement.service.model.Person;
+import by.bsu.advertisement.service.model.PersonRole;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Filter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -41,8 +44,14 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username, password;
+        try {
+            Map<String, String> requestMap = new ObjectMapper().readValue(request.getInputStream(), Map.class);
+            username = requestMap.get("username");
+            password = requestMap.get("password");
+        } catch (IOException e) {
+            throw new AuthenticationServiceException(e.getMessage(), e);
+        }
         log.info("Username: {} with password: {}", username, password);
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
@@ -73,8 +82,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .sign(algorithm);
 
         Map<String, String> tokens = new HashMap<>();
-        tokens.put("access_token", accessToken);
-        tokens.put("refresh_token", refreshToken);
+        tokens.put("accessToken", accessToken);
+        tokens.put("refreshToken", refreshToken);
+        tokens.put("username", user.getUsername());
+        tokens.put("roles", userRoles.toString());
 
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
