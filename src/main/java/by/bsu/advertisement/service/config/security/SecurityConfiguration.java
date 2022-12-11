@@ -38,6 +38,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private static final String[] SWAGGER_ENDPOINTS = {
+            "/v2/api-docs",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/favicon.ico",
+    };
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
@@ -50,6 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/v1/login/**").permitAll();
         http.authorizeRequests().antMatchers(POST, "/api/v1/user").permitAll();
         http.authorizeRequests().antMatchers(GET, "/api/v1/user/refresh").permitAll();
+        http.authorizeRequests().antMatchers(SWAGGER_ENDPOINTS).permitAll();
         http.authorizeRequests().anyRequest().authenticated();
 
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(jwtSecret, jwtAccessTokenExpirationTime, jwtRefreshTokenExpirationTime, authenticationManagerBean());
