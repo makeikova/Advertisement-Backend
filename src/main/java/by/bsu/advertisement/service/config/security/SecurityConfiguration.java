@@ -49,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/api/v1/login/**").permitAll();
         http.authorizeRequests().antMatchers(POST, "/api/v1/user").permitAll();
+        http.authorizeRequests().antMatchers(GET, "/api/v1/user/refresh").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
 
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(jwtSecret, jwtAccessTokenExpirationTime, jwtRefreshTokenExpirationTime, authenticationManagerBean());
