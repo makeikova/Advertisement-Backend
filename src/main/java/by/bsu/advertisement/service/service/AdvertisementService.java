@@ -6,6 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface AdvertisementService {
-    List<Advertisement> getAll();
+    List<Advertisement> getAll(Boolean isAppear);
     void create(Advertisement advertisement, MultipartFile multipartFile);
+    Advertisement getById(Long id);
+    void updateById(Long id, Advertisement advertisement);
+    void hideById(Long id);
 }

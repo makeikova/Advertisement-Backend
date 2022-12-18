@@ -17,6 +17,7 @@ public class Advertisement {
     private Long id;
     private String title;
     private String description;
+    private Boolean isAppear;
     private String imageUrl;
 
     @ManyToMany(mappedBy = "advertisements")
