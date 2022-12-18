@@ -28,6 +28,14 @@ public class DeviceController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("all")
+    public List<DeviceDto> getAllWithout(){
+        List<Device> devices = deviceService.getAll();
+        return devices.stream()
+                .map(device -> modelMapper.map(device, DeviceDto.class))
+                .collect(Collectors.toList());
+    }
+
     @GetMapping("my/{username}")
     public List<DeviceDto> getAllByUsername(@PathVariable String username){
         List<Device> devices = deviceService.getAllByPersonUsername(username);
@@ -64,8 +72,13 @@ public class DeviceController {
     }
 
     @DeleteMapping("{deviceId}")
-    public void deactivateDeviceById(@PathVariable Long deviceId){
-        deviceService.deactivateById(deviceId);
+    public void toggleDeviceStatusById(@PathVariable Long deviceId){
+        deviceService.toggleStatusById(deviceId);
+    }
+
+    @DeleteMapping("{deviceId}/delete")
+    public void deleteForever(@PathVariable Long deviceId){
+
     }
 
 }

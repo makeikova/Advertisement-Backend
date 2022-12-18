@@ -62,6 +62,7 @@ public class PersonController {
     }
 
     @PostMapping("/role")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public void createRole(@RequestBody CreateNewRoleRequest newRoleRequest){
         PersonRole createRole = modelMapper.map(newRoleRequest, PersonRole.class);
@@ -69,6 +70,7 @@ public class PersonController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void createRole(@RequestBody RoleToUserRequest newRoleRequest){
         personService.addRole(newRoleRequest.getUsername(), newRoleRequest.getName());
     }
@@ -118,5 +120,10 @@ public class PersonController {
         } else {
             throw new JWTTokenMissingException("Refresh Token is missing");
         }
+    }
+
+    @DeleteMapping("{userId}")
+    public void toggleBlockStatusById(@PathVariable Long userId) {
+        personService.toggleBlockStatusById(userId);
     }
 }

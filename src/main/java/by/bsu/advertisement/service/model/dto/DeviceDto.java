@@ -6,6 +6,7 @@ import java.util.List;
 
 @Data
 public class DeviceDto {
+    private Long id;
     private String title;
     private Integer impressionPerHour;
     private Boolean isActive;

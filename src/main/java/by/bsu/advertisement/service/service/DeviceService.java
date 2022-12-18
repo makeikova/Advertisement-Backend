@@ -14,5 +14,6 @@ public interface DeviceService {
     void createByUsername(Device device, String username);
     void attachByAdvertisementId(Long deviceId, Long advertisementId);
     void updateById(Long deviceId);
-    void deactivateById(Long deviceId);
+    void toggleStatusById(Long deviceId);
+    void deleteForeverById(Long deviceId);
 }

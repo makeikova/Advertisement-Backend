@@ -25,6 +25,14 @@ public class AdvertisementController {
     private final PersonService personService;
     private final ModelMapper modelMapper;
 
+    @GetMapping("/all")
+    public List<AdvertisementDto> getAllAdvertisement(){
+        List<Advertisement> all = advertisementService.getAllWithoutAppear();
+        return all.stream()
+                .map(el -> modelMapper.map(el, AdvertisementDto.class))
+                .collect(Collectors.toList());
+    }
+
     @GetMapping
     public List<AdvertisementDto> getAll(@RequestParam Boolean isAppear){
         List<Advertisement> allAdvertisements = advertisementService.getAll(isAppear);

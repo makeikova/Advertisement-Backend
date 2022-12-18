@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -41,6 +42,7 @@ public class PersonServiceImpl implements PersonService, UserDetailsService {
         }
         String encodedPassword = passwordEncoder.encode(person.getPassword());
         person.setPassword(encodedPassword);
+        person.setIsBlocked(false);
 
         Person savedPerson = personRepository.save(person);
         String newPersonUsername = savedPerson.getUsername();
@@ -73,8 +75,17 @@ public class PersonServiceImpl implements PersonService, UserDetailsService {
 
     @Override
     public List<Person> getAll() {
-        log.info("Fetching all users");
         return personRepository.findAll();
+    }
+
+    @Override
+    public void toggleBlockStatusById(Long userId) {
+        Person person = personRepository
+                .findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found!"));
+        Boolean isBlocked = person.getIsBlocked();
+        person.setIsBlocked(!isBlocked);
+        personRepository.save(person);
     }
 
     @Override

@@ -32,6 +32,11 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
+    public List<Advertisement> getAllWithoutAppear() {
+        return advertisementRepository.findAll();
+    }
+
+    @Override
     public void create(Advertisement advertisement, MultipartFile multipartFile) {
         String imageUrl = cloudinaryService.uploadFile(multipartFile);
         advertisement.setImageUrl(imageUrl);

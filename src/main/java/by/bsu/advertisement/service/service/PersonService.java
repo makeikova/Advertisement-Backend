@@ -11,4 +11,5 @@ public interface PersonService {
     void addRole(String username, String roleName);
     Person findByUsername(String username);
     List<Person> getAll();
+    void toggleBlockStatusById(Long userId);
 }

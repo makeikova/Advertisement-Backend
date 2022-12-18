@@ -24,6 +24,7 @@ public class Person {
     private String username;
     private String email;
     private String password;
+    private Boolean isBlocked;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<PersonRole> roles = new ArrayList<>();

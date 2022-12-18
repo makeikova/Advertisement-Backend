@@ -15,6 +15,7 @@ public class PersonDto {
     private String username;
     private String email;
     private String password;
+    private Boolean isBlocked;
     private List<DeviceDto> devices;
     private List<AdvertisementDto> advertisements;
 }

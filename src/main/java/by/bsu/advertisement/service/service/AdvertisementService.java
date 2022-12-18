@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface AdvertisementService {
     List<Advertisement> getAll(Boolean isAppear);
+    List<Advertisement> getAllWithoutAppear();
     void create(Advertisement advertisement, MultipartFile multipartFile);
     Advertisement getById(Long id);
     void updateById(Long id, Advertisement advertisement);

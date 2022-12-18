@@ -94,9 +94,16 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public void deactivateById(Long deviceId) {
+    public void toggleStatusById(Long deviceId) {
         Device device = getById(deviceId);
-        device.setIsActive(false);
+        Boolean isActive = device.getIsActive();
+        device.setIsActive(!isActive);
         deviceRepository.save(device);
+    }
+
+    @Override
+    public void deleteForeverById(Long deviceId) {
+        getById(deviceId);
+        deviceRepository.deleteById(deviceId);
     }
 }
