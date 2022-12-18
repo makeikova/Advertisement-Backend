@@ -35,7 +35,10 @@ public class PersonServiceImpl implements PersonService, UserDetailsService {
     @Override
     public void save(Person person) {
         log.info("New saved user to database: {}", person.getUsername());
-
+        Person byUsername = personRepository.findByUsername(person.getUsername());
+        if(byUsername != null){
+            throw new UserAlreadyExistsException(String.format("User with username %s already exists!", person.getUsername()));
+        }
         String encodedPassword = passwordEncoder.encode(person.getPassword());
         person.setPassword(encodedPassword);
 

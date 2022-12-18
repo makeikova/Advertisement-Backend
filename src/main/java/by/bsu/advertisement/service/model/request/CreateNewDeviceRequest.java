@@ -5,6 +5,5 @@ import lombok.Data;
 @Data
 public class CreateNewDeviceRequest {
     private String title;
-    private String description;
     private Integer impressionPerHour;
 }

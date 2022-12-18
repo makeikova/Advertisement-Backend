@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface DeviceRepository extends JpaRepository<Device, Long> {
     List<Device> findAllByPersonId(Long userId);
+    List<Device> findAllByIsActive(Boolean isActive);
+    List<Device> findAllByPersonUsername(String username);
 }

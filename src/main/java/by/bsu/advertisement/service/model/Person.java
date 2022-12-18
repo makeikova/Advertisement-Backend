@@ -31,6 +31,9 @@ public class Person {
     @OneToMany(mappedBy = "person")
     private List<Device> devices;
 
+    @OneToMany(mappedBy = "person")
+    List<Advertisement> advertisements;
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Person{");

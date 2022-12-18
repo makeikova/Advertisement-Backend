@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 public class DeviceDto {
     private String title;
-    private String description;
     private Integer impressionPerHour;
+    private Boolean isActive;
     private List<AdvertisementDto> advertisements;
 }

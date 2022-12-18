@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface AdvertisementRepository extends JpaRepository<Advertisement, Long> {
     List<Advertisement> findAllByIsAppear(Boolean isAppear);
+    List<Advertisement> findAllByPersonUsername(String username);
 }

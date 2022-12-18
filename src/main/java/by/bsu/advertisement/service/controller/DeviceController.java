@@ -21,20 +21,51 @@ public class DeviceController {
     private final DeviceService deviceService;
 
     @GetMapping
-    public List<DeviceDto> getAll(){
-        List<Device> devices = deviceService.getAll();
+    public List<DeviceDto> getAll(@RequestParam Boolean isActive){
+        List<Device> devices = deviceService.getAllByIsActive(isActive);
         return devices.stream()
                 .map(device -> modelMapper.map(device, DeviceDto.class))
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("{personId}")
+    @GetMapping("my/{username}")
+    public List<DeviceDto> getAllByUsername(@PathVariable String username){
+        List<Device> devices = deviceService.getAllByPersonUsername(username);
+        return devices.stream()
+                .map(device -> modelMapper.map(device, DeviceDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("{deviceId}")
+    public DeviceDto getById(@PathVariable Long deviceId){
+        Device device = deviceService.getById(deviceId);
+
+        return modelMapper.map(device, DeviceDto.class);
+    }
+
+    @PostMapping("{username}")
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody CreateNewDeviceRequest newDeviceRequest,
-                       @PathVariable Long personId) {
+                       @PathVariable String username) {
         Device createDevice = modelMapper.map(newDeviceRequest, Device.class);
 
-        deviceService.createByUserId(createDevice, personId);
+        deviceService.createByUsername(createDevice, username);
+    }
+
+    @PostMapping("attach/{deviceId}/{advertisementId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void attachByAdvertisementId(@PathVariable Long deviceId, @PathVariable Long advertisementId){
+        deviceService.attachByAdvertisementId(deviceId, advertisementId);
+    }
+
+    @PutMapping("{deviceId}")
+    public void updateByDeviceId(@PathVariable Long deviceId){
+        deviceService.updateById(deviceId);
+    }
+
+    @DeleteMapping("{deviceId}")
+    public void deactivateDeviceById(@PathVariable Long deviceId){
+        deviceService.deactivateById(deviceId);
     }
 
 }

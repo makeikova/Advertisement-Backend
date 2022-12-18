@@ -1,22 +1,29 @@
 package by.bsu.advertisement.service.service.impl;
 
 import by.bsu.advertisement.service.model.Advertisement;
+import by.bsu.advertisement.service.model.Device;
 import by.bsu.advertisement.service.repository.AdvertisementRepository;
+import by.bsu.advertisement.service.repository.DeviceRepository;
 import by.bsu.advertisement.service.service.AdvertisementService;
 import by.bsu.advertisement.service.service.CloudinaryService;
+import by.bsu.advertisement.service.service.DeviceService;
 import com.cloudinary.Cloudinary;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AdvertisementServiceImpl implements AdvertisementService {
 
     private final AdvertisementRepository advertisementRepository;
+    private final DeviceRepository deviceService;
     private final CloudinaryService cloudinaryService;
 
     @Override
@@ -58,6 +65,11 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         advertisement.setIsAppear(false);
 
         advertisementRepository.save(advertisement);
+    }
+
+    @Override
+    public List<Advertisement> getAllByPersonUsername(String username) {
+        return advertisementRepository.findAllByPersonUsername(username);
     }
 
 

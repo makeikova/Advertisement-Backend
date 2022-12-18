@@ -17,6 +17,7 @@ public class Device {
     private Long id;
     private String title;
     private Integer impressionPerHour;
+    private Boolean isActive;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(

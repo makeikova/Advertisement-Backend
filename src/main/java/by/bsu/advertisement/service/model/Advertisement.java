@@ -22,4 +22,7 @@ public class Advertisement {
 
     @ManyToMany(mappedBy = "advertisements")
     private List<Device> devices;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Person person;
 }
