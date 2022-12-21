@@ -46,7 +46,6 @@ public class PersonController {
     private final PersonService personService;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<PersonDto> getAll(){
         List<Person> all = personService.getAll();
         return all.stream()
@@ -62,7 +61,6 @@ public class PersonController {
     }
 
     @PostMapping("/role")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public void createRole(@RequestBody CreateNewRoleRequest newRoleRequest){
         PersonRole createRole = modelMapper.map(newRoleRequest, PersonRole.class);
@@ -70,7 +68,6 @@ public class PersonController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void createRole(@RequestBody RoleToUserRequest newRoleRequest){
         personService.addRole(newRoleRequest.getUsername(), newRoleRequest.getName());
     }
