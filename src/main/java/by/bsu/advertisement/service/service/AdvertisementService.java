@@ -12,5 +12,7 @@ public interface AdvertisementService {
     Advertisement getById(Long id);
     void updateById(Long id, Advertisement advertisement);
     void hideById(Long id);
+    List<Advertisement> getAllByPersonUsernameAndAppear(Boolean isAppear, String username);
     List<Advertisement> getAllByPersonUsername(String username);
+    void deleteById(Long id);
 }

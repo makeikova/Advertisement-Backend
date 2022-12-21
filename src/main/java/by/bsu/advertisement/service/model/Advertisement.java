@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -19,6 +20,7 @@ public class Advertisement {
     private String description;
     private Boolean isAppear;
     private String imageUrl;
+    private LocalDateTime attachTime;
 
     @ManyToMany(mappedBy = "advertisements")
     private List<Device> devices;

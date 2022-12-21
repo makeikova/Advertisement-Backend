@@ -19,7 +19,7 @@ public class Device {
     private Integer impressionPerHour;
     private Boolean isActive;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "device_advertisement",
             joinColumns = @JoinColumn(name = "device_id"),

@@ -11,4 +11,5 @@ public class DeviceDto {
     private Integer impressionPerHour;
     private Boolean isActive;
     private List<AdvertisementDto> advertisements;
+    private CutPersonDto person;
 }

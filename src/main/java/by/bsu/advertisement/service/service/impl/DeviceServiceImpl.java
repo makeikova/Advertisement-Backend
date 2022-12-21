@@ -1,6 +1,5 @@
 package by.bsu.advertisement.service.service.impl;
 
-import by.bsu.advertisement.service.exception.user.UserAlreadyExistsException;
 import by.bsu.advertisement.service.model.Advertisement;
 import by.bsu.advertisement.service.model.Device;
 import by.bsu.advertisement.service.model.Person;
@@ -8,15 +7,14 @@ import by.bsu.advertisement.service.repository.DeviceRepository;
 import by.bsu.advertisement.service.repository.PersonRepository;
 import by.bsu.advertisement.service.service.AdvertisementService;
 import by.bsu.advertisement.service.service.DeviceService;
-import ch.qos.logback.core.property.ResourceExistsPropertyDefiner;
-import com.cloudinary.api.exceptions.AlreadyExists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -84,6 +82,8 @@ public class DeviceServiceImpl implements DeviceService {
                 throw new RuntimeException("Advertisement already attached!");
             }
         }
+        advertisement.setIsAppear(false);
+        advertisement.setAttachTime(LocalDateTime.now());
         device.getAdvertisements().add(advertisement);
         deviceRepository.save(device);
     }
@@ -99,6 +99,18 @@ public class DeviceServiceImpl implements DeviceService {
         Boolean isActive = device.getIsActive();
         device.setIsActive(!isActive);
         deviceRepository.save(device);
+    }
+
+    @Override
+    public void deleteAdById(Long deviceId, Long adId) {
+        Device device = getById(deviceId);
+        Advertisement advertisement = advertisementService.getById(adId);
+
+        device.getAdvertisements().forEach(el -> {
+            if(el.getId().equals(adId)){
+                advertisementService.deleteById(adId);
+            }
+        });
     }
 
     @Override

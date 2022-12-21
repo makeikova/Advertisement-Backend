@@ -15,5 +15,6 @@ public interface DeviceService {
     void attachByAdvertisementId(Long deviceId, Long advertisementId);
     void updateById(Long deviceId);
     void toggleStatusById(Long deviceId);
+    void deleteAdById(Long deviceId, Long adId);
     void deleteForeverById(Long deviceId);
 }

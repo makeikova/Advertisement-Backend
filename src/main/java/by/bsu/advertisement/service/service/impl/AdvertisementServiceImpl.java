@@ -6,17 +6,13 @@ import by.bsu.advertisement.service.repository.AdvertisementRepository;
 import by.bsu.advertisement.service.repository.DeviceRepository;
 import by.bsu.advertisement.service.service.AdvertisementService;
 import by.bsu.advertisement.service.service.CloudinaryService;
-import by.bsu.advertisement.service.service.DeviceService;
-import com.cloudinary.Cloudinary;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -67,9 +63,15 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         Advertisement advertisement = advertisementRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Advertisement with id: %s not exists!", id)));
-        advertisement.setIsAppear(false);
-
+        boolean isAppear = advertisement.getIsAppear();
+        advertisement.setIsAppear(!isAppear);
+        advertisement.setAttachTime(LocalDateTime.now());
         advertisementRepository.save(advertisement);
+    }
+
+    @Override
+    public List<Advertisement> getAllByPersonUsernameAndAppear(Boolean isAppear, String username) {
+        return advertisementRepository.findAllByIsAppearAndPersonUsername(isAppear, username);
     }
 
     @Override
@@ -77,5 +79,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         return advertisementRepository.findAllByPersonUsername(username);
     }
 
-
+    @Override
+    public void deleteById(Long id) {
+        advertisementRepository.deleteById(id);
+    }
 }

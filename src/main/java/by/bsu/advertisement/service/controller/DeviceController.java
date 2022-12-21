@@ -78,7 +78,7 @@ public class DeviceController {
 
     @DeleteMapping("{deviceId}/delete")
     public void deleteForever(@PathVariable Long deviceId){
-
+        deviceService.deleteForeverById(deviceId);
     }
 
 }

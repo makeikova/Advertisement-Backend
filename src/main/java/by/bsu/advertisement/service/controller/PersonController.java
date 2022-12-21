@@ -123,7 +123,15 @@ public class PersonController {
     }
 
     @DeleteMapping("{userId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void toggleBlockStatusById(@PathVariable Long userId) {
         personService.toggleBlockStatusById(userId);
+    }
+
+    @GetMapping("{username}")
+    public PersonDto getUserById(@PathVariable String username) {
+        Person person = personService.findByUsername(username);
+
+        return modelMapper.map(person, PersonDto.class);
     }
 }

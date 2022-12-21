@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,9 +44,14 @@ public class AdvertisementController {
     }
 
     @GetMapping("/my/{username}")
-    public List<AdvertisementDto> getAllByUsername(@PathVariable String username){
-        List<Advertisement> advertisements = advertisementService.getAllByPersonUsername(username);
-
+    public List<AdvertisementDto> getAllByUsername(@RequestParam (required = false) Boolean isAppear,
+                                                   @PathVariable String username){
+        List<Advertisement> advertisements = new ArrayList<>();
+        if(isAppear != null) {
+            advertisements = advertisementService.getAllByPersonUsernameAndAppear(isAppear, username);
+        }else {
+            advertisements = advertisementService.getAllByPersonUsername(username);
+        }
         return advertisements
                 .stream()
                 .map(el -> modelMapper.map(el, AdvertisementDto.class))
