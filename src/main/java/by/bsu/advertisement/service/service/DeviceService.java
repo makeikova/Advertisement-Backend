@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface DeviceService {
     List<Device> getAll();
-    List<Device> getAllByUserId(Long userId);
     List<Device> getAllByIsActive(Boolean isActive);
     List<Device> getAllByPersonUsername(String username);
     Device getById(Long id);
@@ -15,6 +14,5 @@ public interface DeviceService {
     void attachByAdvertisementId(Long deviceId, Long advertisementId);
     void updateById(Long deviceId);
     void toggleStatusById(Long deviceId);
-    void deleteAdById(Long deviceId, Long adId);
     void deleteForeverById(Long deviceId);
 }

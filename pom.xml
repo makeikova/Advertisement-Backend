@@ -67,7 +67,6 @@
 			<version>1.17.0</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>

@@ -31,14 +31,6 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public List<Device> getAllByUserId(Long userId) {
-        Person person = personRepository
-                .findById(userId)
-                .orElseThrow();
-        return deviceRepository.findAllByPersonId(userId);
-    }
-
-    @Override
     public List<Device> getAllByIsActive(Boolean isActive) {
         return deviceRepository.findAllByIsActive(isActive);
     }
@@ -99,18 +91,6 @@ public class DeviceServiceImpl implements DeviceService {
         Boolean isActive = device.getIsActive();
         device.setIsActive(!isActive);
         deviceRepository.save(device);
-    }
-
-    @Override
-    public void deleteAdById(Long deviceId, Long adId) {
-        Device device = getById(deviceId);
-        Advertisement advertisement = advertisementService.getById(adId);
-
-        device.getAdvertisements().forEach(el -> {
-            if(el.getId().equals(adId)){
-                advertisementService.deleteById(adId);
-            }
-        });
     }
 
     @Override
